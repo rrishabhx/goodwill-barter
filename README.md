@@ -34,3 +34,17 @@
        1. Both users will rate each other based on how much they like each other's service
        2. Ratings will be converted to Karma Points
 3. Ability to check barter requests
+
+
+### Routes
+- '/': Landing page of application -> Should contain two options: products & services
+- '/login', '/logout', '/register': Every webpage's Navbar will contain login/register option
+- '/profile': User profile page (web-tier) -> Owners can check all barter requests, there items and services
+- '/products': Products home page (app-tier/caching service) -> Should contain an Add to Cart button which will redirect current user to owner's timeline with the selected item. 
+   - '/owner_timeline': Timeline of owner -> User can send a message along with the barter request to owner
+   
+- '/services': Services home page -> User specific feed according to the content subscribed by user. User can select any service to barter which will redirect to owner's timeline
+  - '/owner_timeline': Timeline of owner -> User can send a message along with the barter request to owner
+    
+
+### DB schema
