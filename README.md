@@ -48,3 +48,19 @@
     
 
 ### DB schema
+- User (userid, username, )
+- Products
+- UserFollow
+- Services
+- Categories
+
+
+## To-Do
+1. ~~Finalize DB schema~~
+2. Decide on the number of services and how they will communicate
+3. Decide GUI pages
+   1. Use CSS zen for GUI
+4. Criteria for auto-scaling
+5. Task allocation
+6. Polling + How to use memorystore for caching
+7. Is there any use-case for Cloud Functions?
