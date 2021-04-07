@@ -1,18 +1,9 @@
 {% extends "products/base.html" %}
 {% block content %}
     {% for entity in goods %}
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <h1>{{entity}}</h1>
-                    <p class="article-content">{{ post.content }}</p>
-                    <div class="navbar-nav mr-auto">
-                        <a href="{% url 'products-home' %}" class="btn btn-primary btn-lg" role="button">Products</a>
-                        <a href="{% url 'services-home' %}" class="btn btn-primary btn-lg" role="button">Services</a>
-                    </div>
-                </div>
+            <div class="column">
+                    <a href="{% url 'products-home' %}" class="btn btn-primary btn-lg account-img" role="button">Products</a>
+                    <a href="{% url 'services-home' %}" class="btn btn-primary btn-lg account-img" role="button">Services</a>
             </div>
-        </article>
     {% endfor %}
 {% endblock content %}
-
