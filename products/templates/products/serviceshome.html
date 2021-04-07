@@ -6,13 +6,8 @@
                 <div class="article-metadata">
                     <h1>{{entity}}</h1>
                     <p class="article-content">{{ post.content }}</p>
-                    <div class="navbar-nav mr-auto">
-                        <a href="{% url 'products-home' %}" class="btn btn-primary btn-lg" role="button">Products</a>
-                        <a href="{% url 'services-home' %}" class="btn btn-primary btn-lg" role="button">Services</a>
-                    </div>
                 </div>
             </div>
         </article>
     {% endfor %}
 {% endblock content %}
-
