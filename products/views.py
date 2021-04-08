@@ -1,5 +1,9 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView
+)
 from .models import Product
 
 
@@ -26,6 +30,15 @@ class ProductListView(ListView):
 
 class ProductDetailView(DetailView):
     model = Product
+
+
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ['product_name', 'description']
+
+    def form_valid(self, form):
+        form.instance.username = self.request.user
+        return super().form_valid(form)
 
 
 def serviceshome(request):
