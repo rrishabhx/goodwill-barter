@@ -8,6 +8,7 @@ from .models import Product
 
 
 def home(request):
+    #we are not using context
     context = {
         'goods': ['Home page'],
     }
