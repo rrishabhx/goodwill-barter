@@ -2,13 +2,6 @@ from django.shortcuts import render
 from .models import Product
 
 
-def welcome(request):
-    context = {
-        'goods': ['Hello, Welcome'],
-    }
-    return render(request, 'products/welcome.html', context)
-
-
 def home(request):
     context = {
         'goods': ['Home page'],
