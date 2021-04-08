@@ -30,6 +30,7 @@ class ProductListView(ListView):
     template_name = 'products/productshome.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'products'
     ordering = ['-date_posted']
+    paginate_by = 5
 
 
 class ProductDetailView(DetailView):
