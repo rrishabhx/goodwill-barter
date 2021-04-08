@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
     DetailView,
@@ -31,6 +32,17 @@ class ProductListView(ListView):
     context_object_name = 'products'
     ordering = ['-date_posted']
     paginate_by = 5
+
+
+class UserProductListView(ListView):
+    model = Product
+    template_name = 'products/user_products.html'
+    context_object_name = 'products'
+    paginate_by = 4
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        return Product.objects.filter(username=user).order_by('-date_posted')
 
 
 class ProductDetailView(DetailView):

@@ -2,10 +2,10 @@
 {% block content %}
     <article class="media content-section">
         <img class="rounded-circle article-img" src="{{ object.username.profile.image.url }}"
-             alt="{{ product.username }}">
+             alt="{{ object.username }}">
         <div class="media-body">
             <div class="article-metadata">
-                <a class="mr-2" href="#">{{ object.username }}</a>
+                <a class="mr-2" href="{% url 'user-products' object.username.username %}">{{ object.username }}</a>
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
                 {% if object.username == user %}
                     <div>
