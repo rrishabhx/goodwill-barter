@@ -1,14 +1,17 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
     DetailView,
-    CreateView
+    CreateView,
+    UpdateView,
+    DeleteView
 )
 from .models import Product
 
 
 def home(request):
-    #we are not using context
+    # we are not using context
     context = {
         'goods': ['Home page'],
     }
@@ -33,13 +36,39 @@ class ProductDetailView(DetailView):
     model = Product
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     fields = ['product_name', 'description']
 
     def form_valid(self, form):
         form.instance.username = self.request.user
         return super().form_valid(form)
+
+
+class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Product
+    fields = ['product_name', 'description']
+
+    def form_valid(self, form):
+        form.instance.username = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        product = self.get_object()
+        if self.request.user == product.username:
+            return True
+        return False
+
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Product
+    success_url = '/products/'
+
+    def test_func(self):
+        product = self.get_object()
+        if self.request.user == product.username:
+            return True
+        return False
 
 
 def serviceshome(request):
