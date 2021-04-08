@@ -1,0 +1,15 @@
+{% extends "products/base.html" %}
+{% block content %}
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ object.username.profile.image.url }}"
+             alt="{{ product.username }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                <a class="mr-2" href="#">{{ object.username }}</a>
+                    <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
+            </div>
+            <h2 class="article-title">{{ object.product_name }}</h2>
+            <p class="article-content">{{ object.description }}</p>
+        </div>
+    </article>
+{% endblock content %}

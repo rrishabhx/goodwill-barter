@@ -7,8 +7,9 @@
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="#">{{ product.username }}</a>
+                    <small class="text-muted">{{ product.date_posted|date:"F d, Y" }}</small>
                 </div>
-                <h2><a class="article-title" href="#">{{ product.product_name }}</a></h2>
+                <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a></h2>
                 <p class="article-content">{{ product.description }}</p>
             </div>
         </article>
