@@ -2,6 +2,8 @@
 {% block content %}
     {% for product in products %}
         <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ product.username.profile.image.url }}"
+                 alt="{{ product.username }}">
             <div class="media-body">
                 <div class="article-metadata">
                     <a class="mr-2" href="#">{{ product.username }}</a>
