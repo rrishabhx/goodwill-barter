@@ -1,12 +1,13 @@
 {% extends "products/base.html" %}
 {% block content %}
-    {% for entity in goods %}
+    {% for product in products %}
         <article class="media content-section">
             <div class="media-body">
                 <div class="article-metadata">
-                    <h1>{{entity}}</h1>
-                    <p class="article-content">{{ post.content }}</p>
+                    <a class="mr-2" href="#">{{ product.username }}</a>
                 </div>
+                <h2><a class="article-title" href="#">{{ product.product_name }}</a></h2>
+                <p class="article-content">{{ product.description }}</p>
             </div>
         </article>
     {% endfor %}
