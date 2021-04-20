@@ -51,7 +51,7 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
-    fields = ['product_name', 'description']
+    fields = ['product_name', 'description', 'image']
 
     def form_valid(self, form):
         form.instance.username = self.request.user
