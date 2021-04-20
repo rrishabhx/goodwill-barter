@@ -6,11 +6,16 @@
                  alt="{{ product.username }}">
             <div class="media-body">
                 <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-products' product.username.username %}">{{ product.username }}</a>
+                    <a class="mr-2"
+                       href="{% url 'user-products' product.username.username %}">{{ product.username }}</a>
                     <small class="text-muted">{{ product.date_posted|date:"F d, Y" }}</small>
                 </div>
                 <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
                 </h2>
+                <div class="media">
+                    <img class="rounded-circle account-img" src="{{ product.image.url }}"
+                         alt="{{ product.product_name }}">
+                </div>
                 <p class="article-content">{{ product.description }}</p>
             </div>
         </article>
