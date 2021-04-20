@@ -17,7 +17,11 @@
                 {% endif %}
             </div>
             <h2 class="article-title">{{ object.product_name }}</h2>
-            <p class="article-content">{{ object.description }}</p>
+            <div class="media">
+                <img class="img-thumbnail product-img float-left" src="{{ object.image.url }}"
+                     alt="{{ object.product_name }}">
+                <p class="article-content">{{ object.description }}</p>
+            </div>
         </div>
     </article>
 {% endblock content %}

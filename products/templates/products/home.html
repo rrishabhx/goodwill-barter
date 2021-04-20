@@ -2,7 +2,7 @@
 {% block content %}
     <div class="navbar-nav">
         {% if user.is_authenticated %}
-            <div class row>
+            <div class="row">
                 <a href="{% url 'products-home' %}" class="btn btn-primary btn-lg account-img" role="button">Products</a>
                 <a href="{% url 'services-home' %}" class="btn btn-primary btn-lg account-img" role="button">Services</a>
             </div>

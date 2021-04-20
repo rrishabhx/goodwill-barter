@@ -13,10 +13,10 @@
                 <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
                 </h2>
                 <div class="media">
-                    <img class="rounded-circle account-img" src="{{ product.image.url }}"
+                    <img class="img-thumbnail product-img float-left" src="{{ product.image.url }}"
                          alt="{{ product.product_name }}">
+                    <p class="article-content">{{ product.description }}</p>
                 </div>
-                <p class="article-content">{{ product.description }}</p>
             </div>
         </article>
     {% endfor %}
