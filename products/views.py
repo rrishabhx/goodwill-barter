@@ -19,11 +19,11 @@ def home(request):
     return render(request, 'products/home.html', context)
 
 
-def productshome(request):
-    context = {
-        'products': Product.objects.all()
-    }
-    return render(request, 'products/productshome.html', context)
+# def productshome(request):
+#     context = {
+#         'products': Product.objects.all()
+#     }
+#     return render(request, 'products/productshome.html', context)
 
 
 class ProductListView(ListView):

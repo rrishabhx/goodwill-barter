@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from users.models import Message
 
 
 def register(request):
@@ -40,3 +41,13 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def chat(request):
+    context = {}
+    if request.method == 'GET':
+        context['inbox'] = Message.objects.filter(receiver=request.user)
+        context['outbox'] = Message.objects.filter(sender=request.user)
+
+    return render(request, 'users/chat.html', context)

@@ -1,0 +1,13 @@
+{% extends "products/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <h1>Inbox</h1>
+    {% for msg in inbox %}
+        <p>{{ msg.msg_content }}</p>
+    {% endfor %}
+
+    <h1>Outbox</h1>
+    {% for msg in outbox %}
+        <p>{{ msg.msg_content }}</p>
+    {% endfor %}
+{% endblock content %}
