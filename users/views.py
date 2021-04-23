@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+from .forms import *
 from users.models import Message
 
 
@@ -51,3 +51,19 @@ def chat(request):
         context['outbox'] = Message.objects.filter(sender=request.user)
 
     return render(request, 'users/chat.html', context)
+
+
+@login_required
+def sendmsg(request):
+    if request.method == 'POST':
+        form = SendMsgForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # username = form.cleaned_data.get('username')
+            receiver = form.cleaned_data.get('receiver')
+            messages.success(request, f'Message sent to: {receiver}')
+            return redirect('products-home')
+    else:
+        form = SendMsgForm()
+
+    return render(request, 'users/sendmsg.html', {'form': form})

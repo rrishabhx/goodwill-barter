@@ -9,6 +9,7 @@
                     <a class="mr-2"
                        href="{% url 'user-products' product.username.username %}">{{ product.username }}</a>
                     <small class="text-muted">{{ product.date_posted|date:"F d, Y" }}</small>
+                    <a class="mr-2" href="{% url 'send-message'%}">Ping</a>
                 </div>
                 <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
                 </h2>
