@@ -3,12 +3,16 @@
     <div class="navbar-nav">
         {% if user.is_authenticated %}
             <div class="row">
-                <a href="{% url 'products-home' %}" class ="product-img">
-                <img alt="Products" src="static/images/product.jpg">
-                </a>
-                <a href="{% url 'services-home' %}" class ="product-img">
-                <img alt="Services" src="static/images/service.jpg">
-                </a>
+                <div class="column">
+                    <a href=="{% url 'products-home' %}">
+                    <img src="static/images/product.jpg" alt="product" style="width:200%">
+                    </a>
+                </div>
+                <div class="column">
+                    <a href=="{% url 'services-home' %}">
+                    <img src="static/images/service.jpg" alt="service" style="width:200%">
+                    </a>
+                </div>
             </div>
         {% else %}
                  <h2>Hello! Welcome, please login to continue</h2>
