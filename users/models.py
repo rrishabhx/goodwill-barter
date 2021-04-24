@@ -24,7 +24,11 @@ class Profile(models.Model):
 
 
 class Message(models.Model):
-    sender = models.ForeignKey(User, related_name='sender', on_delete=models.CASCADE)
-    receiver = models.ForeignKey(User, related_name='receiver', on_delete=models.CASCADE)
+    sender = models.ForeignKey(User, null=True, related_name='sender', on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, null=True, related_name='receiver', on_delete=models.CASCADE)
     msg_content = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f'Key:{self.pk}, sender:{self.sender}, receiver:{self.receiver}'
+
