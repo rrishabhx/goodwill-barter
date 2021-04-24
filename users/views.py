@@ -55,12 +55,16 @@ def chat(request):
 
 @login_required
 def sendmsg(request):
+    sender = request.GET.get('sender')
+    receiver = request.GET.get('receiver')
     if request.method == 'POST':
-        form = SendMsgForm(request.POST)
+        # form = SendMsgForm(request.POST)
+
+        form = SendMsgForm(request.POST, initial={'receiver': receiver, 'sender': sender})
         if form.is_valid():
             form.save()
-            # username = form.cleaned_data.get('username')
-            receiver = form.cleaned_data.get('receiver')
+            # sender = form.cleaned_data.get('sender')
+            # receiver = receiver
             messages.success(request, f'Message sent to: {receiver}')
             return redirect('products-home')
     else:

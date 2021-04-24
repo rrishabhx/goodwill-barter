@@ -29,4 +29,4 @@ class ProfileUpdateForm(forms.ModelForm):
 class SendMsgForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = ['sender', 'receiver', 'msg_content']
+        fields = ['msg_content']
