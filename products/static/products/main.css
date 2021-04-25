@@ -88,12 +88,12 @@ a.article-title:hover {
 
 .row {
     display: flex;
-  }
-  
-  .column {
+}
+
+.column {
     flex: 50%;
     padding: 100px;
-  }
+}
 
 .account-heading {
     font-size: 2.5rem;
@@ -103,8 +103,13 @@ a.article-title:hover {
 .chat-left {
     width: 550px;
     text-align: left;
+    background-color: cornflowerblue;
+    color: white;
 }
+
 .chat-right {
     width: 550px;
     text-align: right;
+    background-color: silver;
+    color: black;
 }

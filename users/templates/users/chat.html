@@ -2,12 +2,12 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>Message History</h1>
-    {% for msg in context1.msg_history %}
+    {% for msg in msg_data.msg_history %}
         <div>
             {% if user.username == msg.sender.username %}
-            <label class="chat-right" style="background-color:LightGray">{{msg.sender}} : {{msg.msg_content}}</label>
+                <label class="chat-right">{{ msg.sender }} : {{ msg.msg_content }}</label>
             {% else %}
-            <label class="chat-left" style="background-color:Gray">{{msg.sender}} :: {{msg.msg_content}}</label>
+                <label class="chat-left">{{ msg.sender }} :: {{ msg.msg_content }}</label>
             {% endif %}
         </div>
     {% endfor %}
