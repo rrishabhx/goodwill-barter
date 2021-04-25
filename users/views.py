@@ -46,13 +46,16 @@ def profile(request):
 
 @login_required
 def chat(request):
+    context = {}
     receiver_name = request.GET.get('receiver')
 
     other_user = User.objects.get(username=receiver_name)
     current_user = request.user
+
     msg_data = {'msg_history': Message.objects.filter(
         (Q(sender=current_user) & Q(receiver=other_user)) |
         (Q(sender=other_user) & Q(receiver=current_user))).order_by('created_at')}
+    context['msg_data'] = msg_data
 
     if request.method == 'POST':
         msg_instance = Message(sender=request.user, receiver=User.objects.get(username=receiver_name))
@@ -60,13 +63,9 @@ def chat(request):
         if form.is_valid():
             form.save()
             messages.success(request, f'Message sent to: {receiver_name}')
-            return redirect('products-home')
     else:
         form = SendMsgForm()
 
-    context = {
-        'msg_data': msg_data,
-        'form': form
-    }
+    context['form'] = form
 
     return render(request, 'users/chat.html', context)
