@@ -43,7 +43,7 @@ def profile(request):
     }
     return render(request, 'users/profile.html', context)
 
-
+'''
 @login_required
 def chat(request):
     receiver_name = request.GET.get('receiver')
@@ -73,3 +73,64 @@ def sendmsg(request):
         form = SendMsgForm()
 
     return render(request, 'users/sendmsg.html', {'form': form})
+'''
+
+    #///////////////////////////Trying Combination//////////////
+
+@login_required
+def sendmsg(request):
+    receiver_name = request.GET.get('receiver')
+
+    other_user = User.objects.get(username=receiver_name)
+    current_user = request.user
+    context1 = {}
+    context1['msg_history'] = Message.objects.filter(
+    (Q(sender=current_user) & Q(receiver=other_user)) |
+    (Q(sender=other_user) & Q(receiver=current_user))).order_by('created_at')
+
+    if request.method == 'POST':
+        msg_instance = Message(sender=request.user, receiver=User.objects.get(username=receiver_name))
+        form = SendMsgForm(request.POST, instance=msg_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Message sent to: {receiver_name}')
+            return redirect('products-home')
+    else:
+        form = SendMsgForm()
+
+    context = {
+            'context1': context1,
+            'form': form
+        }
+
+    return render(request, 'users/chat.html', context)
+
+
+@login_required
+def chat(request):
+    receiver_name = request.GET.get('receiver')
+
+    other_user = User.objects.get(username=receiver_name)
+    current_user = request.user
+    context1 = {}
+    context1['msg_history'] = Message.objects.filter(
+    (Q(sender=current_user) & Q(receiver=other_user)) |
+    (Q(sender=other_user) & Q(receiver=current_user))).order_by('created_at')
+
+    if request.method == 'POST':
+        msg_instance = Message(sender=request.user, receiver=User.objects.get(username=receiver_name))
+        form = SendMsgForm(request.POST, instance=msg_instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, f'Message sent to: {receiver_name}')
+            return redirect('products-home')
+    else:
+        form = SendMsgForm()
+
+    context = {
+            'context1': context1,
+            'form': form
+        }
+
+    return render(request, 'users/chat.html', context)
+

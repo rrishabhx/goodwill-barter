@@ -98,3 +98,13 @@ a.article-title:hover {
 .account-heading {
     font-size: 2.5rem;
 }
+
+
+.chat-left {
+    width: 550px;
+    text-align: left;
+}
+.chat-right {
+    width: 550px;
+    text-align: right;
+}

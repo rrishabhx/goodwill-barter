@@ -2,10 +2,28 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <h1>Message History</h1>
-    {% for msg in msg_history %}
+    {% for msg in context1.msg_history %}
         <div>
-            <p>Sender: {{ msg.sender }}, Receiver: {{ msg.receiver }}, Content:{{ msg.msg_content }},
-                Time: {{ msg.created_at }}</p>
+            {% if user.username == msg.sender %}
+            <label class="chat-right" style="background-color:LightGray">{{msg.sender}} : {{msg.msg_content}}</label>
+            {% else %}
+            <label class="chat-left" style="background-color:Gray">{{msg.sender}} :: {{msg.msg_content}}</label>
+            {% endif %}
         </div>
     {% endfor %}
+
+    <div class="content-section">
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">
+                    Send Message
+                </legend>
+                {{ form|crispy }}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit">Send</button>
+            </div>
+        </form>
+    </div>
 {% endblock content %}
