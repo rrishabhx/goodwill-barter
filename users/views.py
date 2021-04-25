@@ -3,6 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from users.models import Message
+from django.db.models import Q
 
 
 def register(request):
@@ -45,10 +46,15 @@ def profile(request):
 
 @login_required
 def chat(request):
+    receiver_name = request.GET.get('receiver')
+
+    other_user = User.objects.get(username=receiver_name)
+    current_user = request.user
     context = {}
     if request.method == 'GET':
-        context['inbox'] = Message.objects.filter(receiver=request.user)
-        context['outbox'] = Message.objects.filter(sender=request.user)
+        context['msg_history'] = Message.objects.filter(
+            (Q(sender=current_user) & Q(receiver=other_user)) |
+            (Q(sender=other_user) & Q(receiver=current_user))).order_by('created_at')
 
     return render(request, 'users/chat.html', context)
 
