@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .forms import *
 from users.models import Message
-from django.db.models import Q
+from django.db.models import Q, F
 
 
 def register(request):
@@ -42,6 +42,24 @@ def profile(request):
         'p_form': p_form
     }
     return render(request, 'users/profile.html', context)
+
+
+@login_required
+def chat_history(request):
+    chat_users = set()
+
+    for usr in Message.objects.filter(receiver=request.user).values('sender').distinct():
+        user_id = usr['sender']
+        user_obj = User.objects.get(pk=user_id)
+        chat_users.add(user_obj)
+
+    for usr in Message.objects.filter(sender=request.user).values('receiver').distinct():
+        user_id = usr['receiver']
+        user_obj = User.objects.get(pk=user_id)
+        chat_users.add(user_obj)
+
+    context = {'chat_users': chat_users}
+    return render(request, 'users/chat_history.html', context)
 
 
 @login_required
