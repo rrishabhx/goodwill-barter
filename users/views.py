@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, reverse
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+
 from .forms import *
 from users.models import Message
 from django.db.models import Q, F
@@ -81,6 +82,8 @@ def chat(request):
         if form.is_valid():
             form.save()
             messages.success(request, f'Message sent to: {receiver_name}')
+
+        return redirect(reverse('chat-page') + f'?receiver={receiver_name}')
     else:
         form = SendMsgForm()
 
