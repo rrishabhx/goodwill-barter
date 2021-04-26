@@ -6,8 +6,10 @@
         <div>
             {% if user.username == msg.sender.username %}
                 <label class="chat-right">{{ msg.sender }} : {{ msg.msg_content }}</label>
+                <label class="chat-time-right">{{ msg.created_at }}</label>
             {% else %}
-                <label class="chat-left">{{ msg.sender }} :: {{ msg.msg_content }}</label>
+                <label class="chat-left">{{ msg.sender }} : {{ msg.msg_content }}</label>
+                <label class="chat-time-left">{{ msg.created_at }}</label>
             {% endif %}
         </div>
     {% endfor %}
