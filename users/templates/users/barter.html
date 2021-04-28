@@ -1,0 +1,14 @@
+{% extends "products/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+    <div>
+        <h1>Barter History</h1>
+        {% for barter in all_barters %}
+            <p>{{ barter.user1 }} {{ barter.product1 }} {{ barter.user2 }} {{ barter.product2 }}</p>
+        {% endfor %}
+
+        <h2>Pending Barter</h2>
+        <p>{{ pending_barter.user1 }}{{ pending_barter.product1 }}{{ pending_barter.user2 }}{{ pending_barter.product2 }}</p>
+
+    </div>
+{% endblock content %}

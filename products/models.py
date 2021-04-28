@@ -31,23 +31,3 @@ class Product(models.Model):
 
     def get_absolute_url(self):
         return reverse('product-detail', kwargs={'pk': self.pk})
-
-    # def save(self, **kwargs):
-    #     super().save()
-    #
-    #     img = Image.open(self.image.path)
-    #
-    #     if img.height > 300 or img.width > 300:
-    #         output_size = (300, 300)
-    #         img.thumbnail(output_size)
-    #         img.save()
-
-# class ProductFollow(models.Model):
-#     product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-#     product_category = models.ForeignKey(Category, on_delete=models.CASCADE)
-#
-#
-# class Barter(models.Model):
-#     barter_id = models.CharField(max_length=100)
-#     status = models.BooleanField(default=False)
-#     user1 = models.ForeignKey()

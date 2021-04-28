@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 from .forms import *
-from users.models import Message
+from users.models import Message, Barter
+from products.models import Product
 from django.db.models import Q, F
 
 
@@ -90,3 +91,44 @@ def chat(request):
     context['form'] = form
 
     return render(request, 'users/chat.html', context)
+
+
+def create_barter_entry(prod_owner, sender, prod, context):
+    pending_barters = Barter.objects.filter(
+        (Q(user1=prod_owner) & Q(user2=sender)) | (Q(user1=sender) & Q(user2=prod_owner)))
+    print(f"Pending Barters: {pending_barters}")
+    if pending_barters:
+        context['pending_barter'] = pending_barters[0]
+        return False
+
+    barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
+    barter_obj.save()
+    print("Barter object created")
+    return True
+
+
+@login_required
+def barter_req(request):
+    context = {}
+    receiver_name = request.GET.get('receiver')
+    print(f"Receiver: {receiver_name}")
+
+    if receiver_name:
+        recv_user = User.objects.get(username=receiver_name)
+        context['prod_owner'] = recv_user
+
+        recv_user_prod_key = request.GET.get('product_key')
+        print(f"Product of user2: {recv_user_prod_key}")
+
+        prod = Product.objects.get(pk=recv_user_prod_key)
+        context['prod_interested'] = prod
+
+        if prod:
+            status = create_barter_entry(recv_user, request.user, prod, context)
+            if not status:
+                print("Could not create barter req")
+    else:
+        all_barter_transactions = Barter.objects.filter(Q(user1=request.user) | Q(user2=request.user))
+        context['all_barters'] = all_barter_transactions
+
+    return render(request, 'users/barter.html', context)

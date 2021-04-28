@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from PIL import Image
 from django.utils import timezone
 
+from products.models import Product
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -32,3 +34,10 @@ class Message(models.Model):
     def __str__(self):
         return f'Key:{self.pk}, sender:{self.sender}, receiver:{self.receiver}'
 
+
+class Barter(models.Model):
+    status = models.BooleanField(default=False)
+    user1 = models.ForeignKey(User, null=True, related_name='user1', on_delete=models.CASCADE)
+    product1 = models.ForeignKey(Product, null=True, related_name='product1', on_delete=models.CASCADE)
+    user2 = models.ForeignKey(User, null=True, related_name='user2', on_delete=models.CASCADE)
+    product2 = models.ForeignKey(Product, null=True, related_name='product2', on_delete=models.CASCADE)
