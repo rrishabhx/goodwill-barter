@@ -75,42 +75,42 @@ import pymysql  # noqa: 402
 pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
 pymysql.install_as_MySQLdb()
 # Cloud storage connection
-if os.getenv('GAE_APPLICATION', None):
-    # Running on production App Engine, so connect to Google Cloud SQL using
-    # the unix socket at /cloudsql/<your-cloudsql-connection string>
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/test-goodwill-barter:us-central1:gb-instance-2',
-            'USER': 'testuser',
-            'PASSWORD': 'mysql',
-            'NAME': 'gb_db'
-        }
-    }
-else:
-    # Running locally so connect to either a local Postgres instance or connect to
-    # Cloud SQL via the proxy. To start the proxy via command line:
-    #
-    #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
-    #
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.mysql',
-            'HOST': '127.0.0.1',
-            'PORT': '3306',
-            'USER': 'testuser',
-            'PASSWORD': 'mysql',
-            'NAME': 'gb_db',
-        }
-    }
-
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
+# if os.getenv('GAE_APPLICATION', None):
+#     # Running on production App Engine, so connect to Google Cloud SQL using
+#     # the unix socket at /cloudsql/<your-cloudsql-connection string>
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST': '/cloudsql/test-goodwill-barter:us-central1:gb-instance-2',
+#             'USER': 'testuser',
+#             'PASSWORD': 'mysql',
+#             'NAME': 'gb_db'
+#         }
 #     }
-# }
+# else:
+#     # Running locally so connect to either a local Postgres instance or connect to
+#     # Cloud SQL via the proxy. To start the proxy via command line:
+#     #
+#     #     $ cloud_sql_proxy -instances=[INSTANCE_CONNECTION_NAME]=tcp:3306
+#     #
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.mysql',
+#             'HOST': '127.0.0.1',
+#             'PORT': '3306',
+#             'USER': 'testuser',
+#             'PASSWORD': 'mysql',
+#             'NAME': 'gb_db',
+#         }
+#     }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators

@@ -21,12 +21,15 @@
     {% if pending_barter2 %}
         <div>
             <h3>Barter Request from {{ pending_barter2.user2.username }}</h3>
-            <img src="{{ pending_barter2.product1.image.url }}" alt="{{ pending_barter2.product1 }}" style="width:40%">
-            {% if status2 %}
-                <p>You have accepted {{pending_barter2.user2.username}}'s request</p>
-            {% else %}
-                <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&product_key={{ pending_barter2.product1.pk }}&accept=True">Accept</a>
-            {% endif %}
+                <img src="{{ pending_barter2.product1.image.url }}" alt="{{ pending_barter2.product1 }}" style="width:40%">
+                {% if status2 %}
+                    <p>You have accepted {{pending_barter2.user2.username}}'s request</p>
+                {% else %}
+                    <div>
+                        <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&product_key={{ pending_barter2.product1.pk }}&accept=True">Accept</a>
+                    </div>
+                {% endif %}
+            
         </div>
     {% endif %}
 

@@ -121,11 +121,12 @@ def create_barter_entry(prod_owner, sender, prod, context):
         context['status1']=pending_barters[0].status
         return False
 
-    barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
-    barter_obj.save()
-    print("Barter object created")
-    context['pending_barter1'] = barter_obj
-    return True
+    if prod:
+        barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
+        barter_obj.save()
+        print("Barter object created")
+        context['pending_barter1'] = barter_obj
+        return True
 
 @login_required
 def barter_req(request):
