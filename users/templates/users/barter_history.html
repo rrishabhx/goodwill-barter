@@ -2,18 +2,18 @@
 {% load crispy_forms_tags %}
 {% block content %}
     <div>
-        <h1>Completed Barter</h1>
+        <h2>Completed Barter:</h2>
         {% for barter in barter_users %}
             {% if user.username != barter.username %}
                 <div>
-                    <a href="{% url 'barter-page' %}?receiver={{ barter.username }}">
+                    <a href="{% url 'barter-page' %}?receiver={{ barter.username }}&status=completed">
                         {{ barter.username }}
                     </a>
                 </div>
             {% endif %}
         {% endfor %}
 
-        <h2>Pending Barter</h2>
+        <h2>Pending Barter:</h2>
         {% for pending_user in pending_users %}
             {% if user.username != pending_user.username %}
                 <div>

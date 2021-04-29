@@ -13,7 +13,7 @@
                 {% if status1 %}
                     <p>{{pending_barter1.user1.username}} has accepted your request</p>
                 {% else %}
-                    <p>Already requested, please wait for owner to accept your request</p>
+                    <p>Already requested, please wait for owner({{pending_barter1.user1.username}}) to accept your request</p>
                 {% endif %}
             {% endif %}
         </div>
@@ -26,11 +26,23 @@
                     <p>You have accepted {{pending_barter2.user2.username}}'s request</p>
                 {% else %}
                     <div>
-                        <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&product_key={{ pending_barter2.product1.pk }}&accept=True">Accept</a>
+                        <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&accept=True">Accept</a>
                     </div>
                 {% endif %}
             
         </div>
+    {% endif %}
+
+    {% if completed_barters %}
+        <h4>Completed!!</h4>
+        <h3>Below Products are exchanged between you and {{ prod_owner }}</h3>
+        {% for barter in completed_barters %}
+            <div class="row">
+                <img src="{{ barter.product1.image.url }}" alt="{{ barter.product1 }}" style="width:20%">
+                <p>-----></p>
+                <img src="{{ barter.product2.image.url }}" alt="{{ barter.product2 }}" style="width:20%">  
+            </div>
+        {% endfor %}
     {% endif %}
 
 {% endblock content %}
