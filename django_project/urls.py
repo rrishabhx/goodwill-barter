@@ -27,6 +27,7 @@ urlpatterns = [
     path('profile/', user_views.profile, name='profile'),
     path('chat_history/', user_views.chat_history, name='chat-history'),
     path('chat/', user_views.chat, name='chat-page'),
+    path('barter_history/', user_views.barter_req_history, name='barter-history'),
     path('barter/', user_views.barter_req, name='barter-page'),
     path('login/', auth_views.LoginView.as_view(template_name='users/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),

@@ -1,29 +1,31 @@
 {% extends "products/base.html" %}
 {% block content %}
     {% for product in products %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ product.username.profile.image.url }}"
-                 alt="{{ product.username }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2"
-                       href="{% url 'user-products' product.username.username %}">{{ product.username }}</a>
-                    <small class="text-muted">{{ product.date_posted|date:"F d, Y" }}</small>
-                    <a class="mr-2"
-                       href="{% url 'chat-page' %}?receiver={{ product.username }}&product={{ product.product_name }}">Ping</a>
-                    <a class="mr-2"
-                       href="{% url 'barter-page' %}?receiver={{ product.username }}&product_key={{ product.pk }}">Request
-                        Barter</a>
+        {% if user.username != product.username.username %}
+            <article class="media content-section">
+                <img class="rounded-circle article-img" src="{{ product.username.profile.image.url }}"
+                    alt="{{ product.username }}">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        <a class="mr-2"
+                        href="{% url 'user-products' product.username.username %}">{{ product.username }}</a>
+                        <small class="text-muted">{{ product.date_posted|date:"F d, Y" }}</small>
+                        <a class="mr-2"
+                        href="{% url 'chat-page' %}?receiver={{ product.username }}&product={{ product.product_name }}">Ping</a>
+                        <a class="mr-2"
+                        href="{% url 'barter-page' %}?receiver={{ product.username }}&sender={{ user.username }}&product_key={{ product.pk }}">Request
+                            Barter</a>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
+                    </h2>
+                    <div class="media">
+                        <img class="img-thumbnail product-img float-left" src="{{ product.image.url }}"
+                            alt="{{ product.product_name }}">
+                        <p class="article-content">{{ product.description }}</p>
+                    </div>
                 </div>
-                <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
-                </h2>
-                <div class="media">
-                    <img class="img-thumbnail product-img float-left" src="{{ product.image.url }}"
-                         alt="{{ product.product_name }}">
-                    <p class="article-content">{{ product.description }}</p>
-                </div>
-            </div>
-        </article>
+            </article>
+            {% endif %}
     {% endfor %}
     {% if is_paginated %}
         {% if page_obj.has_previous %}
