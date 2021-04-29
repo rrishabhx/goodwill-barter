@@ -93,67 +93,71 @@ def chat(request):
     return render(request, 'users/chat.html', context)
 
 
-def create_barter_entry(prod_owner, sender, prod, context):
-    pending_barters = Barter.objects.filter(
-        (Q(user1=prod_owner) & Q(user2=sender)))
-    print(f"Pending Barters: {pending_barters}")
-    if pending_barters:
-        context['pending_barter'] = pending_barters[0]
-        return False
-
-    barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
-    barter_obj.save()
-    print("Barter object created")
-    return True
-
-
 @login_required
 def barter_req_history(request):
     context = {}
     receiver_name = request.GET.get('receiver')
     print(f"Receiver: {receiver_name}")
 
-    all_barter_transactions = Barter.objects.filter((Q(user1=request.user) & Q(status=True)) | (Q(user2=request.user) & Q(status=True)))
-    all_pending_barters = Barter.objects.filter((Q(user1=request.user) & Q(status=False)) | (Q(user2=request.user) & Q(status=False)))
-    context['all_barters'] = all_barter_transactions
-    context['all_pending_barters'] = all_pending_barters
+    barter_users = set()
+    for barter in Barter.objects.filter((Q(user1=request.user) & Q(status=True)) | (Q(user2=request.user) & Q(status=True))):
+        barter_users.add(barter.user1)
+        barter_users.add(barter.user2)
+    pending_users = set()
+    for pending in Barter.objects.filter((Q(user1=request.user) & Q(status=False)) | (Q(user2=request.user) & Q(status=False))):
+        pending_users.add(pending.user1)
+        pending_users.add(pending.user2)
+
+    context['barter_users'] = barter_users
+    context['pending_users'] = pending_users
 
     return render(request, 'users/barter_history.html', context)
+
+
+def create_barter_entry(prod_owner, sender, prod, context):
+    pending_barters = Barter.objects.filter((Q(user1=prod_owner) & Q(user2=sender)))
+    if pending_barters:
+        context['pending_barter1'] = pending_barters[0]
+        context['status1']=pending_barters[0].status
+        return False
+
+    barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
+    barter_obj.save()
+    print("Barter object created")
+    context['pending_barter1'] = barter_obj
+    return True
 
 @login_required
 def barter_req(request):
         context = {}
+        prod=""
         receiver_name = request.GET.get('receiver')
         print(f"Receiver: {receiver_name}")
         recv_user = User.objects.get(username=receiver_name)
         context['prod_owner'] = recv_user
 
-        sender_name = request.GET.get('sender')
-        print(f"Receiver: {sender_name}")
-        sender_user = User.objects.get(username=sender_name)
-        context['sender'] = sender_user
-
-        recv_user_prod_key = request.GET.get('product_key')
-        print(f"Product of user2: {recv_user_prod_key}")
-        prod = Product.objects.get(pk=recv_user_prod_key)
-        context['prod_interested'] = prod
+        if 'product_key' in request.GET:
+            recv_user_prod_key = request.GET.get('product_key')
+            print(f"Product of user2: {recv_user_prod_key}")
+            prod = Product.objects.get(pk=recv_user_prod_key)
+            context['prod_interested'] = prod
 
         if 'accept' in request.GET:
-            barter_request = Barter.objects.filter(
-                    (Q(user1=recv_user) & Q(user2=sender_user) & Q(product1=prod)))
-            barter_request[0].status=True
-            barter_request[0].save()
-            print(f"Barters[0]: {barter_request[0].status}")
-            pending_barters = Barter.objects.filter(
-            (Q(user1=recv_user) & Q(user2=sender_user) & Q(product1=prod) & Q(status=True)))
-            print(f"Pending Barters: {pending_barters}")
+            barter_requests = Barter.objects.filter(
+                    (Q(user1=request.user) & Q(user2=recv_user) & Q(product1=prod)))
+            if barter_requests:
+                barter_requests[0].status=True
+                barter_requests[0].save()
 
-
-        if prod:
-            is_created = create_barter_entry(recv_user, sender_user, prod, context)
-            context['is_created']=is_created
-            if not is_created:
-                print("Could not create barter req")
+        is_created = create_barter_entry(recv_user,request.user, prod, context)
+        context['is_created']=is_created
+        if not is_created:
+            print("Could not create barter req")
+        
+        pending_barters = Barter.objects.filter((Q(user1=request.user) & Q(user2=recv_user)))
+        if pending_barters:
+            context['pending_barter2'] = pending_barters[0]
+            context['status2']=pending_barters[0].status
 
         return render(request, 'users/barter.html', context)
 

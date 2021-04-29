@@ -3,27 +3,22 @@
 {% block content %}
     <div>
         <h1>Completed Barter</h1>
-        {% for barter in all_barters %}
-            <p>{{ barter.status }} {{ barter.user1 }} {{ barter.product1 }} {{ barter.user2 }} {{ barter.product2 }}</p>
-        {% endfor %}
-
-        <h2>My Pending Barter</h2>
-        {% for pending_barter in all_pending_barters %}
-            {% if user.username == pending_barter.user2.username %}
+        {% for barter in barter_users %}
+            {% if user.username != barter.username %}
                 <div>
-                    <a href="{% url 'barter-page' %}?receiver={{ pending_barter.user1.username }}&sender={{ pending_barter.user2.username }}&product_key=16">
-                        {{ pending_barter.user2 }} is requesting for {{ pending_barter.product1 }} from {{ pending_barter.user1 }} -{{ pending_barter.product2 }}
+                    <a href="{% url 'barter-page' %}?receiver={{ barter.username }}">
+                        {{ barter.username }}
                     </a>
                 </div>
             {% endif %}
         {% endfor %}
 
         <h2>Pending Barter</h2>
-        {% for pending_barter in all_pending_barters %}
-            {% if user.username == pending_barter.user1.username %}
+        {% for pending_user in pending_users %}
+            {% if user.username != pending_user.username %}
                 <div>
-                    <a href="{% url 'barter-page' %}?receiver={{ pending_barter.user1.username }}&sender={{ pending_barter.user2.username }}&product_key=16">
-                        {{ pending_barter.user2 }} is requesting for {{ pending_barter.product1 }} from {{ pending_barter.user1 }}-{{ pending_barter.product2 }}
+                    <a href="{% url 'barter-page' %}?receiver={{ pending_user.username }}">
+                        {{ pending_user.username }}
                     </a>
                 </div>
             {% endif %}

@@ -41,3 +41,8 @@ class Barter(models.Model):
     product1 = models.ForeignKey(Product, null=True, related_name='product1', on_delete=models.CASCADE)
     user2 = models.ForeignKey(User, null=True, related_name='user2', on_delete=models.CASCADE)
     product2 = models.ForeignKey(Product, null=True, related_name='product2', on_delete=models.CASCADE)
+
+
+    def __str__(self):
+        return f"status:{self.status}, user1:{self.user1}, product1:{self.product1}, user2:{self.user2}, product2:{self.product2}"
+    

@@ -13,7 +13,7 @@
                         <a class="mr-2"
                         href="{% url 'chat-page' %}?receiver={{ product.username }}&product={{ product.product_name }}">Ping</a>
                         <a class="mr-2"
-                        href="{% url 'barter-page' %}?receiver={{ product.username }}&sender={{ user.username }}&product_key={{ product.pk }}">Request
+                        href="{% url 'barter-page' %}?receiver={{ product.username }}&product_key={{ product.pk }}">Request
                             Barter</a>
                     </div>
                     <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>

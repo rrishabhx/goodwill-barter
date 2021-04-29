@@ -1,18 +1,33 @@
 {% extends "products/base.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
-    <div>
-        <h1>Barter Request From {{ pending_barter.user2 }}</h1>
-        <img src="{{ pending_barter.product1.image.url }}" alt="{{ pending_barter.product1 }}" style="width:40%">
-    </div>
 
-    {% if user.username == pending_barter.user1.username %}
-        <a href="{% url 'barter-page' %}?receiver={{ pending_barter.user1.username }}&sender={{ pending_barter.user2.username }}&product_key=16&accept=True">Accept</a>
-    {% else %}
-        {% if is_created %}
-            <p>Request successfully sent</p>
-        {% else %}
-            <p>Already requested, please wait for owner to accept your request</p>
-        {% endif %}
+    <h1>Barter Transaction:</h1>
+    {% if pending_barter1 %}
+        <div>
+            <h3>My Barter Request</h3>
+            <img src="{{ pending_barter1.product1.image.url }}" alt="{{ pending_barter1.product1 }}" style="width:40%">
+            {% if is_created %}
+                <p>Request successfully sent</p>
+            {% else %}
+                {% if status1 %}
+                    <p>{{pending_barter1.user1.username}} has accepted your request</p>
+                {% else %}
+                    <p>Already requested, please wait for owner to accept your request</p>
+                {% endif %}
+            {% endif %}
+        </div>
     {% endif %}
+    {% if pending_barter2 %}
+        <div>
+            <h3>Barter Request from {{ pending_barter2.user2.username }}</h3>
+            <img src="{{ pending_barter2.product1.image.url }}" alt="{{ pending_barter2.product1 }}" style="width:40%">
+            {% if status2 %}
+                <p>You have accepted {{pending_barter2.user2.username}}'s request</p>
+            {% else %}
+                <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&product_key={{ pending_barter2.product1.pk }}&accept=True">Accept</a>
+            {% endif %}
+        </div>
+    {% endif %}
+
 {% endblock content %}
