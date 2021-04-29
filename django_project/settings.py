@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '-=m1lz5kf-jh@3d!jfnc6ps36ww&ikf@n2-6ac0lhi4((fye6j'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = not os.getenv('GAE_APPLICATION', None)
+# DEBUG = not os.getenv('GAE_APPLICATION', None)
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -72,6 +73,7 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 
 # Database
 import pymysql  # noqa: 402
+
 pymysql.version_info = (1, 4, 6, 'final', 0)  # change mysqlclient version
 pymysql.install_as_MySQLdb()
 # Cloud storage connection
@@ -148,8 +150,22 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_URL = '/media/'
+
+# For storing media in the bucket
+# Getting credential
+from google.oauth2 import service_account
+
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'credential.json'))
+
+# Configuration for media file storing and retrieving from gcloud
+DEFAULT_FILE_STORAGE = 'django_project.gcloud.GoogleCloudMediaFileStorage'
+GS_PROJECT_ID = 'test-goodwill-barter'
+GS_BUCKET_NAME = 'goodwill_barter_bucket'
+MEDIA_ROOT = 'media/'
+UPLOAD_ROOT = 'media/uploads/'
+MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
