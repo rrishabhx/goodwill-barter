@@ -7,8 +7,7 @@
             <div class="media-body">
                 <h2 class="account-heading">{{ user.username }}</h2>
                 <p class="text-secondary">{{ user.email }}</p>
-                <img src="{{ user.profile.image.url }}" alt="karmapoints" style="width:10%">
-                <p class="text-secondary">{{ user.profile.karma }}</p>
+                <a href="{% url 'user-products' user.username %}">My Products</a>
             </div>
         </div>
         <form method="POST" enctype="multipart/form-data">

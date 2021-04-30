@@ -68,7 +68,6 @@ def chat_history(request):
 def chat(request):
     context = {}
     receiver_name = request.GET.get('receiver')
-#add if method=get
     other_user = User.objects.get(username=receiver_name)
     current_user = request.user
 
@@ -102,18 +101,20 @@ def barter_req_history(request):
     barter_users = set()
     for barter in Barter.objects.filter((Q(user1=request.user) & Q(status=True)) | (Q(user2=request.user) & Q(status=True))):
         if barter.product2==None:
-            other_barters=Barter.objects.filter(Q(user1=barter.user2) & Q(user2=barter.user1)& Q(status=True))
-            if other_barters:
-                print(f"other_barters: {other_barters}")
-                if other_barters[0].user1==request.user:
-                    barter_obj = Barter(user1=request.user, product1=other_barters[0].product1, user2=other_barters[0].user2, product2=barter.product1, status=True)
-                else:
-                    barter_obj = Barter(user1=request.user, product1=barter.product1, user2=barter.user2, product2=other_barters[0].product1, status=True)
-                print(f"barter_obj: {barter_obj}")
-                barter_obj.save()
-                barter_users.add(barter_obj.user2)
-                Barter.objects.filter(id=barter.pk).delete()
-                Barter.objects.filter(id=other_barters[0].pk).delete()
+            for other_barter in Barter.objects.filter(Q(user1=barter.user2) & Q(user2=barter.user1)& Q(status=True)):
+                if other_barter.product2==None:
+                    if other_barter.user1==request.user:
+                        barter_obj = Barter(user1=request.user, product1=other_barter.product1, user2=other_barter.user2, product2=barter.product1, status=True)
+                    else:
+                        barter_obj = Barter(user1=request.user, product1=barter.product1, user2=barter.user2, product2=other_barter.product1, status=True)
+                    print(f"barter_obj: {barter_obj}")
+                    barter_obj.save()
+                    b=Barter.objects.filter(Q(status=True))
+                    print(f"bbbbbbbbb: {b}")
+                    barter_users.add(barter_obj.user2)
+                    Barter.objects.filter(id=barter.pk).delete()
+                    Barter.objects.filter(id=other_barter.pk).delete()
+                    remove_product(barter_obj)
         else:
             print(f"barter_obj: {barter}")
             barter_users.add(barter.user1)
@@ -131,12 +132,21 @@ def barter_req_history(request):
     return render(request, 'users/barter_history.html', context)
 
 
+def remove_product(barter):
+    prod1=Product.objects.get(id=barter.product1.pk)
+    prod1.available=False
+    prod1.save()
+    prod2=Product.objects.get(id=barter.product2.pk)
+    prod2.available=False
+    prod2.save()
+
+
 def create_barter_entry(prod_owner, sender, prod, context):
-    pending_barters = Barter.objects.filter((Q(user1=prod_owner) & Q(user2=sender)))
-    if pending_barters:
-        context['pending_barter1'] = pending_barters[0]
-        context['status1']=pending_barters[0].status
-        return False
+    for pending_barter in  Barter.objects.filter((Q(user1=prod_owner) & Q(user2=sender))):
+        if pending_barter.product2==None:
+            context['pending_barter1'] = pending_barter
+            context['status1']=pending_barter.status
+            return False
 
     if prod:
         barter_obj = Barter(user1=prod_owner, product1=prod, user2=sender)
