@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+import storages.backends.s3boto3
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -39,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -150,24 +153,37 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
 
+# Google Cloud Store related config: start
 # For storing media in the bucket
 # Getting credential
-from google.oauth2 import service_account
+# from google.oauth2 import service_account
+#
+# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'credential.json'))
+#
+# # Configuration for media file storing and retrieving from gcloud
+# DEFAULT_FILE_STORAGE = 'django_project.gcloud.GoogleCloudMediaFileStorage'
+# GS_PROJECT_ID = 'test-goodwill-barter'
+# GS_BUCKET_NAME = 'goodwill_barter_bucket'
+# MEDIA_ROOT = 'media/'
+# UPLOAD_ROOT = 'media/uploads/'
+# MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
+# Google Cloud Store related config: end
 
-GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'credential.json'))
-
-# Configuration for media file storing and retrieving from gcloud
-DEFAULT_FILE_STORAGE = 'django_project.gcloud.GoogleCloudMediaFileStorage'
-GS_PROJECT_ID = 'test-goodwill-barter'
-GS_BUCKET_NAME = 'goodwill_barter_bucket'
-MEDIA_ROOT = 'media/'
-UPLOAD_ROOT = 'media/uploads/'
-MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
+
+# AWS related config: start
+AWS_ACCESS_KEY_ID = "AKIAYAZ4PHGT46ZWBIEN"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "goodwill-barter-s3-bucket"
+
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# AWS related config: end
