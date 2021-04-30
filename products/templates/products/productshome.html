@@ -17,6 +17,7 @@
                             href="{% url 'barter-page' %}?receiver={{ product.username }}&product_key={{ product.pk }}">Request
                                 Barter</a>
                         </div>
+                        <small class="text-muted">{{ product.category }}</small>
                         <h2><a class="article-title" href="{% url 'product-detail' product.id %}">{{ product.product_name }}</a>
                         </h2>
                         <div class="media">

@@ -15,6 +15,10 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    PRODUCT = 'product'
+    SERVICE = 'service'
+    CATEGORY_CHOICES = [(PRODUCT, 'product'), (SERVICE, 'service')]
+
     product_id = models.CharField(max_length=255)
     username = models.ForeignKey(User, on_delete=models.CASCADE)
     product_name = models.CharField(max_length=255)
@@ -23,7 +27,7 @@ class Product(models.Model):
     image = models.ImageField(null=True, blank=True, default='product_pics/default-product.jpg',
                               upload_to=f'product_pics')
     available = models.BooleanField(default=True)
-    category = models.CharField(max_length=255, default='miscellaneous')
+    category = models.CharField(max_length=255, default='product', choices=CATEGORY_CHOICES)
     date_posted = models.DateTimeField(default=timezone.now)
 
     def __str__(self):

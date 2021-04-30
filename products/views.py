@@ -72,7 +72,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
 
 class ProductUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Product
-    fields = ['product_name', 'description', 'category', 'image']
+    fields = ['product_name', 'description', 'image']
 
     def form_valid(self, form):
         form.instance.username = self.request.user
