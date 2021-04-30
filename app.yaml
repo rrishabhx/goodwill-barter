@@ -3,6 +3,11 @@ runtime: python39
 
 entrypoint: gunicorn -b :$PORT django_project.wsgi
 
+env_variables:
+  AWS_ACCESS_KEY_ID: "<YOUR_AWS_ACCESS_KEY_ID>"
+  AWS_SECRET_ACCESS_KEY: "<YOUR_AWS_SECRET_ACCESS_KEY>"
+  AWS_STORAGE_BUCKET_NAME: "YOUR_AWS_STORAGE_BUCKET_NAME"
+
 automatic_scaling:
   target_cpu_utilization: 0.5
   target_throughput_utilization: 0.5
