@@ -27,6 +27,7 @@
                 {% else %}
                     <div>
                         <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&accept=True">Accept</a>
+                        <a href="{% url 'barter-page' %}?receiver={{ pending_barter2.user2.username }}&decline=True">Decline</a>
                     </div>
                 {% endif %}
             

@@ -139,6 +139,12 @@ def remove_product(barter):
     prod2=Product.objects.get(id=barter.product2.pk)
     prod2.available=False
     prod2.save()
+    for remove_barter in Barter.objects.filter(Q(product1=barter.product1)):
+        if remove_barter.product2==None:
+            Barter.objects.filter(id=remove_barter.pk).delete()
+    for remove_barter in Barter.objects.filter(Q(product1=barter.product2)):
+        if remove_barter.product2==None:
+            Barter.objects.filter(id=remove_barter.pk).delete()
 
 
 def create_barter_entry(prod_owner, sender, prod, context):
@@ -176,6 +182,12 @@ def barter_req(request):
             if barter_requests:
                 barter_requests[0].status=True
                 barter_requests[0].save()
+
+        if 'decline' in request.GET:
+            barter_requests = Barter.objects.filter(
+                    (Q(user1=request.user) & Q(user2=recv_user) & Q(status=False)))
+            if barter_requests:
+                Barter.objects.filter(id=barter_requests[0].pk).delete()
 
         if 'status' in request.GET:
             completed_barters= set()
