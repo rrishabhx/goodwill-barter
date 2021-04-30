@@ -1,8 +1,8 @@
 {% extends "products/base.html" %}
 {% block content %}
     {% for product in products %}
-        {% if user.username != product.username.username %}
-            {% if product.available %}
+{#        {% if user.username != product.username.username %}#}
+{#            {% if product.available %}#}
                 <article class="media content-section">
                     <img class="rounded-circle article-img" src="{{ product.username.profile.image.url }}"
                         alt="{{ product.username }}">
@@ -26,8 +26,8 @@
                         </div>
                     </div>
                 </article>
-            {% endif %}
-        {% endif %}
+{#            {% endif %}#}
+{#        {% endif %}#}
     {% endfor %}
     {% if is_paginated %}
         {% if page_obj.has_previous %}

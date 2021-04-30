@@ -9,6 +9,7 @@ from django.views.generic import (
     DeleteView
 )
 from .models import Product
+from django.db.models import Q
 
 
 def home(request):
@@ -33,6 +34,16 @@ class ProductListView(ListView):
     ordering = ['-date_posted']
     paginate_by = 5
 
+    def get_queryset(self):
+        print(f"Current username: {self.request.user}, type: {type(self.request.user)}")
+
+        if not self.request.user.is_anonymous:
+            result = Product.objects.filter(~Q(username=self.request.user) & Q(available=True)).order_by('-date_posted')
+            print(f"result: {result}")
+            return result
+
+        return Product.objects.filter(Q(available=True)).order_by('-date_posted')
+
 
 class UserProductListView(ListView):
     model = Product
@@ -41,6 +52,7 @@ class UserProductListView(ListView):
     paginate_by = 4
 
     def get_queryset(self):
+        print(f"Current username: {self.kwargs.get('username')}")
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Product.objects.filter(username=user).order_by('-date_posted')
 
