@@ -156,23 +156,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-# Google Cloud Store related config: start
-# For storing media in the bucket
-# Getting credential
-# from google.oauth2 import service_account
-#
-# GS_CREDENTIALS = service_account.Credentials.from_service_account_file(os.path.join(BASE_DIR, 'credential.json'))
-#
-# # Configuration for media file storing and retrieving from gcloud
-# DEFAULT_FILE_STORAGE = 'django_project.gcloud.GoogleCloudMediaFileStorage'
-# GS_PROJECT_ID = 'test-goodwill-barter'
-# GS_BUCKET_NAME = 'goodwill_barter_bucket'
-# MEDIA_ROOT = 'media/'
-# UPLOAD_ROOT = 'media/uploads/'
-# MEDIA_URL = f'https://storage.googleapis.com/{GS_BUCKET_NAME}/'
-# Google Cloud Store related config: end
-
-
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'home'
